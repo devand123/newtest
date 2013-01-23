@@ -1,0 +1,18 @@
+<div class="edit-profile-contain">
+	<h1>Edit Profile</h1>
+
+	<form id="edit-profile">
+
+		<input type="hidden" name="uid" value="<%= userID %>" />
+
+		<label for="about-me">
+			Change Your About Me <small>(250 Character Maximum)</small> 
+			<span class="saved-status"></span>
+		</label>
+		<textarea name="about-me"><%= aboutMe %></textarea>
+
+		<input type="submit" value="Save Profile" />
+
+	</form>
+	
+</div>

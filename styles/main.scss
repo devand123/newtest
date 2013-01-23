@@ -1,0 +1,565 @@
+@import "boilerplate/html5bp.css";
+@import "boilerplate/normalize.css";
+@import "grid";
+
+ $blue: #03899c; 
+/* $blue: #13558F; */
+
+/* ## GLOBAL STYLES ## */
+
+/* eff you firefox */
+*:focus {
+	outline: 0!important;
+}
+
+form {
+	label {
+		display: block;
+		font-size: 1.6em;
+		line-height: 1.5;
+		cursor: pointer;
+		& span {
+			color: red;
+			font-size: 0.9em;
+			padding-left: 10px;
+		}
+	}
+	textarea {
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		resize: none;
+		font-size: 1.5em;
+		margin: 0.3em 0px 1.2em 0px;
+		padding: 5px;
+		&:hover {
+			border-color: #ababab;
+		}
+		&:focus {
+			border-color: $blue;
+		}
+	}
+	input {
+		width: 180px;
+		padding: 5px;
+		border: 1px solid #ccc;
+		font-size: 1.5em;
+		margin: 0.3em 0px 1.2em 0px;
+		border-radius: 3px;
+		&:hover {
+			border-color: #ababab;
+		}
+		&:focus {
+			border-color: $blue;
+		}
+		&.error {
+			border-color: red;
+		}
+	}
+	input[type="submit"] {
+		display: block;
+		width: 190px;
+		padding: 10px 0px;
+		font-size: 1.7em;
+		background: $blue;
+		color: #fff;
+		border: none;
+		&:hover {
+			background: darken($blue, 3%);
+		}
+	}
+	span.super-error {
+		display: block;
+		p {
+			color: red;
+			font-weight: bold;
+		}
+	}
+	span.error {
+		color: red;
+		font-size: 1.5em;
+		font-weight: bold;
+		display: block;
+		margin-bottom: 10px;
+	}
+}
+
+#comment {
+	.text-area {
+		border-radius: 3px;
+		border: 1px solid #bbb;
+		display: inline-block;
+		textarea {
+			width: 400px;
+			padding: 5px;
+			overflow: hidden;
+			border: none;
+			font-size: 1.7em;
+			resize: none;
+			&:focus {
+				width: 460px;
+				height: 90px;
+			}
+		}
+	}
+}
+
+
+	input[type="submit"] {
+		display: inline-block!important;
+		margin: 0px;
+		padding: 15px 25px!important;
+	}
+
+#login {
+		input {
+			width: 250px!important;
+			padding: 10px!important;
+		}
+		input[type="submit"] {
+			width: 270px!important;
+		}
+	}
+
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	color: #333;
+}
+
+a {
+	color: $blue;
+	text-decoration: none;
+	&:hover {
+		color: darken($blue, 7%);
+		text-decoration: underline;
+	}
+}
+
+.container {
+	@include container;
+}
+
+.header {
+	background: $blue;
+	position: fixed;
+	top: 0px;
+	height: 89px;
+	width: 100%;
+	z-index: 999;
+	.title {
+		@include columns(8);
+		h1 {
+			a {
+				text-decoration: none;
+				color: #fff;
+			}
+		}
+	}
+	.navcontain {
+		@include columns(16);
+		.nav {
+			margin: 0px;
+			padding: 0px;
+			float: right;
+			@include clearfix;
+			li {
+				float: left;
+				padding: 33px 0px;
+				position: relative;
+				&:hover {
+					background: darken($blue, 3%);
+					ul.user-options {
+						display: block;
+					}
+				}
+				a {
+					font-size: 1.7em;
+					text-decoration: none;
+					color: #fff;
+					padding: 33px 25px;
+					text-transform: uppercase;
+				}
+				&.active {
+					background: darken($blue, 5%);
+				}
+				&.usercontain {
+					ul {
+						width: 150px!important;
+					}
+				}
+				ul.user-options {
+					display: none;
+					position: absolute;
+					z-index: 999;
+					bottom: -87px;
+					right: 0px;
+					padding: 0px;
+					margin: 0px;
+					background: #fff;
+					border: 1px solid #ddd;
+					border-top: none;
+					width: 131px;
+					&:hover {
+						border-color: $blue;
+					}
+					li {
+						padding: 10px 0px!important;
+						text-align: center;
+						width: 100%;
+						&:hover {
+							background: darken($blue, 3%);
+							a {
+								color: #fff;
+							}
+						}
+						a {
+							color: $blue;
+							text-transform: none;
+							padding: 0px;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+.content {
+	@include container;
+	/* add space so that the header is accounted for */
+	&:before {
+		content: '';
+		display: block;
+		height: 90px;
+		width: 1px;
+	}
+	#main {
+		@include columns(24);
+	}
+}
+
+.footercontain {
+	/* background: darken($blue, 15%);
+	color: #fff;*/
+	margin: 1.5em 0px 0px 0px;
+	.footer {
+		@include columns(24);
+		border-top: 1px solid #eee;
+		padding: 0.5em 0px;
+		text-align: right;
+		p.left {
+			float: left;
+		}
+	}
+}
+
+.homepage {
+	.top {
+		h1 {
+			font-size: 6.5em;
+			margin: 0.5em 0px 0px 0px;
+		}
+		h2 {
+			font-size: 2.5em;
+			margin: 0.5em 0px 0px 0px;
+			font-weight: normal;
+		}
+	}
+	.regular {
+		margin: 3em 0px 0px 0px;
+		h3 {
+			margin: 0px 0px 0.5em 0px;
+			font-size: 1.8em;
+			font-weight: normal;
+			a {
+				font-weight: bold;
+			}
+		}
+	}
+	.gallery {
+		margin-top: 2em;
+		h1 {
+			margin: 0px;
+		}
+	}
+}
+
+/* single message view */
+
+.messageview {
+	position: relative;
+	h1 {
+		margin: 0.5em 0px;
+	}
+	p.message-body {
+		/* make sure the message has proper spacing as per the textarea */
+		white-space: pre-wrap;
+		width: 700px;
+	}
+	a.messages-button {
+		background: $blue;
+		color: #fff;
+		font-size: 1.8em;
+		display: inline-block;
+		border-radius: 3px;
+		margin: 0px 0.5em 0px 0px;
+		padding: 15px 20px;
+	}
+	.usercontain {
+		position: absolute;
+		right: 0px;
+		top:0px;
+		.user-picture {
+			width: 150px;
+			height: 150px;
+			background: $blue;
+			display: block;
+		}
+		h5 {
+			font-size: 1.5em;	
+		}
+	}
+	.message-tools {
+		display: block;
+		margin: 4em 0px 0px 0px;
+	}
+}
+
+/* main messages page */
+
+button.message-tool {
+	font-size: 1.8em;
+	display: inline-block;
+	border-radius: 3px;
+	margin: 0px 0.5em 0px 0px;
+	padding: 17px 25px;
+	border: none;
+	background: #eee;
+	color: #888;
+	&.active {
+		background: $blue;
+		color: #fff;
+		&:hover {
+			background: darken($blue, 3%);
+		}
+	}
+}
+
+a.linkbutton {
+	font-size: 1.8em;
+	display: inline-block;
+	border-radius: 3px;
+	margin: 0px 0.5em 0px 0px;
+	padding: 15px 20px;
+	&:hover {
+		text-decoration: none;
+	}
+	&.blue-button {
+		color: #fff;
+		background: $blue;
+		&:hover {
+			background: darken($blue, 3%);
+		}
+	}
+}
+
+#messages {
+/*/ messages main page styles */
+}
+
+th {
+	padding: 20px 10px;
+	text-transform: uppercase;
+	font-size: 1.6em;
+	text-align: left;
+	border-bottom: 5px solid $blue;
+	color: $blue;
+	&.markMessage {
+		width: 50px;
+	}
+	&.message-title {
+		width: 500px;
+	}
+	&.message-from {
+		width: 200px;
+	}
+	&.message-received {
+		width: 200px;
+	}
+}
+
+tr.message {
+	border-bottom: 1px solid #ddd;
+	background: #fff;
+	&:hover td {
+		background: #f9f9f9;
+	}
+	td {
+		background: #fff;
+		padding: 15px 10px;
+		font-size: 1.5em;
+		&.markMessage {
+			width: 30px!important;
+		}
+	}
+	&.isread {
+		td {
+			background: #eee;
+		}
+	}
+	&.selected {
+		td {
+			background: $blue;
+			color: #fff!important;
+			border-bottom: 1px solid darken($blue, 7%);
+			a {
+				color: #fff!important;
+			}
+		}
+	}
+}
+
+form#compose-message {
+	input {
+		width: 700px;
+	}
+	textarea {
+		width: 700px;
+		height: 300px;
+	}
+	input[type="submit"] {
+		display: block;
+		width: 710px;
+	}
+	div.show-users {
+		display: none;
+		width: 710px;
+		font-size: 1.5em;
+		border: 1px solid #ddd;
+		padding: 0px;
+		margin-top: -15px;
+		ul.user-list {
+			padding: 0px;
+			margin: 0px;
+			list-style-type: none;
+			li {
+				cursor: pointer;
+				margin: 0px;
+				padding: 10px;
+				color: $blue;
+				font-weight: bold;
+				&:hover {
+					background: #eee;
+					color: darken($blue, 7%);
+				}
+				&.no-users {
+					color: #333;
+				}
+			}
+		}
+	}
+}
+
+#reply-message {
+	form#reply-message {
+		input {
+			width: 700px;
+		}
+		textarea {
+			width: 700px;
+			height: 300px;
+		}
+		input[type="submit"] {
+			display: block;
+			width: 710px;
+		}
+	}
+}
+
+#errorpage {
+	h1 {
+		font-size: 4em;
+	}
+}
+
+/* edit profile specific */
+
+.edit-profile-contain {
+	form#edit-profile {
+		textarea {
+			width: 500px;
+			height: 100px;
+		}
+		input[type="submit"] {
+			display: block!important;
+		}
+		input[disabled="disabled"] {
+			background: #999;
+		}
+		label {
+			span {
+				color: $blue;
+				font-weight: bold;
+			}
+		}
+	}
+}
+
+
+/* Smaller than standard 960 (devices and browsers) */
+	@media only screen and (max-width: 959px) {
+		body {
+			font-size: 53%;
+		}
+		.header {
+			.title {
+				margin: 0px;
+			}
+			.navcontain {
+				margin: 0px;
+				.nav {
+					li {
+						padding: 25px 0px;
+						a {
+							padding: 25px 15px;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	/* ### NO-JS STYLES ## */
+
+	.no-js .header {
+		.title {
+			div.has-js {
+				display: none;
+			}
+			noscript {
+				display: block;
+			}
+		}
+		.navcontain {
+			.nav {
+				div.has-js {
+					display: none;
+				}
+				noscript {
+					display: block;
+				}
+			}
+		}
+	}
+
+	/* Tablet Portrait size to standard 960 (devices and browsers) */
+	@media only screen and (min-width: 768px) and (max-width: 959px) {}
+
+	/* All Mobile Sizes (devices and browser) */
+	@media only screen and (max-width: 767px) {}
+
+	/* Mobile Landscape Size to Tablet Portrait (devices and browsers) */
+	@media only screen and (min-width: 480px) and (max-width: 767px) {}
+
+	/* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
+	@media only screen and (max-width: 479px) {}

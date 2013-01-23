@@ -1,0 +1,9 @@
+<tr class="message <%= isRead %>">
+	<td class="markMessage"> 
+		<input type="hidden" name="mail-id" value="<%= messageID %>" />
+		<input type="checkbox" name="markMessage" /> 
+	</td>
+	<td> <a href="#messages/<%= messageID %>"> <%= messageTitle %> </a> </td>
+	<td> <a href="#users/<%= fromID %>"><%= fromUser %></a></td>
+	<td> <%= receivedDate %> </td>
+</tr>

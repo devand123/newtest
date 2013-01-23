@@ -1,0 +1,22 @@
+<div id="messages">
+	<h1><%= pageTitle %></h1>
+
+<% if(hideTools === false) { %>
+	<div class="toolbar">
+		<a href="#compose" class="linkbutton blue-button">Compose</a>
+		<button name="deletemessage" class="linkbutton message-tool">Delete</button>
+	</div>
+<% } else { %>
+	<p>The message will be displayed here if the recipient has not deleted it already.</p>
+<% } %>
+
+
+	<table id="message-table">
+		<tbody>
+				<th class="markMessage"></th>
+				<th class="message-title">Message Title</th>
+				<th class="message-from"><%= messageType %></th>
+				<th class="message-received"><%= sentTimeTitle %></th>
+		</tbody>
+	</table>
+</div>

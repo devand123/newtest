@@ -1,0 +1,32 @@
+<div id="reply-message">
+	<p><a href="#messages/<%= messageID %>">Go Back</a></p>
+
+	<h1>Reply To: <%= messageTitle %></h1>
+	<h3>From: <%= fromUser %></h3>
+
+	<form id="reply-message">
+
+		<!-- not really needed as this id is looked up by the users name -->
+		<input type="hidden" name="uid" value="<%= fromID %>" />
+		<!-- the name of the username this is being sent to -->
+		<input type="hidden" name="sendtousername" value="<%= fromUser %>" />
+		<!-- Originally from this users ID since this is a reply  -->
+		<input type="hidden" name="comingfromthisuser" value="<%= sendTo %>" />
+
+		<label for="message-title">Message Title</label>
+		<input type="text" name="message-title" value="RE: <%= messageTitle %>" />
+
+		<label for="message-body">Message Body</label>
+<!-- Text has to align to the left of textarea -->
+<textarea name="message-body">
+
+
+----------------------------------
+At <%= receivedDate %>, <%= fromUser %> said:
+
+<%= messageBody %>
+</textarea>
+
+		<input type="submit" value="Reply" />
+	</form>
+</div>

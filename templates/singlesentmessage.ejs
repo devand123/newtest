@@ -1,0 +1,10 @@
+<div class="messageview">
+	<p> <a href="#sentmessages">Go Back To Sent Messages</a> </p>
+
+	<h1><%= messageTitle %></h1>
+	<input type="hidden" name="message-id" value="<%= messageID %>" />
+	<input type="hidden" name="send-to-id" value="<%= sendTo %>" />
+	<p><strong>You sent on: <%= receivedDate %> </strong></p>
+
+	<p class="message-body"><%= messageBody %></p>
+</div>
