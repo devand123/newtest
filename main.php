@@ -21,13 +21,10 @@ $app = new \Slim\Slim();
 
 //Configure database options
 //Development version:
-//ORM::configure('mysql:host=localhost;dbname=newtest');
-//ORM::configure('username', 'root');
-//ORM::configure('password', 'root');
-//Production
-ORM::configure('mysql:host=localhost;dbname=devinan4_newtest');
-ORM::configure('username', 'devinan4_devin');
-ORM::configure('password', 'Passiton1@');
+ORM::configure('mysql:host=localhost;dbname=newtest');
+ORM::configure('username', 'root');
+ORM::configure('password', 'root');
+
 
 class Users extends Model {
 }
