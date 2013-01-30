@@ -8,16 +8,23 @@ define([
   "ejs",
   "views/makeview",
   "models/messages",
-  "collections/messages"
+  "collections/messages",
+  "navtracker"
 ],
 
-function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesCollection) {
+function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesCollection, navTracker) {
 
   EJS = window.EJS;
 
   // Messages Index Page
   var MessageView = Backbone.View.extend({
     initialize: function() {
+      //mark the tab as active on initialize
+      navTracker.markActive('#messages');
+    },
+    onClose: function() {
+      //remove just the messages active state
+      navTracker.removeState('#messages');
     },
     render: function(data) {
       var template = new EJS({ url: './templates/messages.ejs' }).render(data);
@@ -215,7 +222,7 @@ function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesColle
 
           //Construct the reply view with the data
           makeView.viewConstruct(replyView, newdata);
-
+          $('textarea').focus();
       });
       },
       error: function(data) {
@@ -642,7 +649,7 @@ function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesColle
       'blur input[name="send-to"]': 'blurInput',
       'submit form': 'formSubmit'
     },
-    showHint: function() {
+    showHint: function(evt) {
 
       // Empty out the results list on each keydown
       // So a new list is appended for the newly requested result
@@ -650,6 +657,13 @@ function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesColle
 
       // If the inputs value is greater than 0
       if($('input[name="send-to"]').val().length !== 0) {
+
+        // if enter is clicked
+        if(evt.keyCode === 13) {
+          evt.preventDefault();
+          $('.show-users').remove();
+          $('input[name="message-title"]').focus();
+        }
 
         // Show the div that would display the user that is being typed out
         $('div.show-users').css('display', 'block');
@@ -704,7 +718,7 @@ function($, _, Backbone, Marionette, EJS, makeView, MessagesModel, MessagesColle
             // If there are matches after this point, remove the previously appended message.
             $('ul.user-list li.no-users').remove();
           }
-        }, 1000);
+        }, 700);
 
       }
       // if the value is zero, make sure the hint box goes away

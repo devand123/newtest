@@ -1,9 +1,10 @@
 @import "boilerplate/html5bp.css";
 @import "boilerplate/normalize.css";
+@import "icons.css";
 @import "grid";
 
- $blue: #03899c; 
-/* $blue: #13558F; */
+ //$blue: #03899c; 
+$blue: #1883c8;
 
 /* ## GLOBAL STYLES ## */
 
@@ -124,6 +125,7 @@ form {
 body {
 	font-family: 'Open Sans', sans-serif;
 	color: #333;
+	overflow: scroll;
 }
 
 a {
@@ -140,15 +142,25 @@ a {
 }
 
 .header {
-	background: $blue;
+	background: #333;
 	position: fixed;
 	top: 0px;
-	height: 89px;
+	height: 60px;
 	width: 100%;
 	z-index: 999;
+	&.transparent {
+		opacity: 0.9;
+		&:hover {
+			opacity: 1;
+		}
+	}
 	.title {
-		@include columns(8);
+		display: inline;
+		float: left;
+		width: 30%;
+		margin: 0px;
 		h1 {
+			margin: 9px 0px;
 			a {
 				text-decoration: none;
 				color: #fff;
@@ -156,7 +168,9 @@ a {
 		}
 	}
 	.navcontain {
-		@include columns(16);
+		float: left;
+		width: 70%;
+		display: inline;
 		.nav {
 			margin: 0px;
 			padding: 0px;
@@ -164,10 +178,15 @@ a {
 			@include clearfix;
 			li {
 				float: left;
-				padding: 33px 0px;
+				height: 40px;
+				padding: 20px 0px 0px 0px;
 				position: relative;
 				&:hover {
-					background: darken($blue, 3%);
+					//background: #222;
+					background: $blue;
+					a {
+						color: #fff;
+					}
 					ul.user-options {
 						display: block;
 					}
@@ -175,12 +194,22 @@ a {
 				a {
 					font-size: 1.7em;
 					text-decoration: none;
-					color: #fff;
-					padding: 33px 25px;
-					text-transform: uppercase;
+					color: #ccc;
+					padding: 0px 15px;
+					text-shadow: 1px 1px 0px rgba(0,0,0,0.3);
+					//text-transform: uppercase;
+					i {
+						display: inline-block!important;
+						margin-bottom: -5px;
+						padding-right: 5px;
+						font-size: 17px!important;
+					}
 				}
 				&.active {
-					background: darken($blue, 5%);
+					background: $blue;
+					a {
+						color: #fff;
+					}
 				}
 				&.usercontain {
 					ul {
@@ -197,25 +226,27 @@ a {
 					margin: 0px;
 					background: #fff;
 					border: 1px solid #ddd;
+					border-radius: 0px 0px 5px 5px;
 					border-top: none;
-					width: 131px;
-					&:hover {
-						border-color: $blue;
-					}
+					width: 120px;
 					li {
-						padding: 10px 0px!important;
-						text-align: center;
+						//text-align: center;
 						width: 100%;
+						height: 30px;
+						padding: 8px 0px 5px 0px;
+						margin: 0px;
 						&:hover {
-							background: darken($blue, 3%);
+							background: #eee;
 							a {
-								color: #fff;
+								color: $blue;
+								text-shadow: 1px 1px 0px #ffffff;
 							}
 						}
 						a {
-							color: $blue;
+							color: #999;
 							text-transform: none;
-							padding: 0px;
+							text-shadow: none;
+							padding: 8px 20px 5px 20px;
 						}
 					}
 				}
@@ -230,7 +261,7 @@ a {
 	&:before {
 		content: '';
 		display: block;
-		height: 90px;
+		height: 60px;
 		width: 1px;
 	}
 	#main {
@@ -291,37 +322,43 @@ a {
 	h1 {
 		margin: 0.5em 0px;
 	}
+	.message-contain {
+		display: inline;
+		float: left;
+		width: 70%;
+	}
 	p.message-body {
 		/* make sure the message has proper spacing as per the textarea */
 		white-space: pre-wrap;
-		width: 700px;
+		line-height: 1.8;
+		padding: 0px 5px;
+		//width: 700px;
 	}
-	a.messages-button {
-		background: $blue;
-		color: #fff;
-		font-size: 1.8em;
-		display: inline-block;
-		border-radius: 3px;
-		margin: 0px 0.5em 0px 0px;
-		padding: 15px 20px;
+	a.linkbutton, button.message-tool {
+		margin: 0px 0px 0px 0.5em;
 	}
 	.usercontain {
-		position: absolute;
-		right: 0px;
-		top:0px;
-		.user-picture {
-			width: 150px;
-			height: 150px;
-			background: $blue;
-			display: block;
+		display: inline;
+		float: right;
+		text-align: right;
+		width: 30%;
+		padding: 20px 0px;
+		img {
+			width: 40px;
+			height: 40px;
+			border-radius: 5px;
+			border: 1px solid #777;
 		}
 		h5 {
-			font-size: 1.5em;	
+			font-size: 2.5em;
+			display: inline-block;
+			margin: 0px 0px -10px 10px;
 		}
 	}
 	.message-tools {
 		display: block;
-		margin: 4em 0px 0px 0px;
+		//float: right;
+		margin: 2em 0px 0px 0px;
 	}
 }
 
@@ -341,6 +378,14 @@ button.message-tool {
 		color: #fff;
 		&:hover {
 			background: darken($blue, 3%);
+		}
+	}
+	&.delete {
+		&.active {
+			background: #d4565a;
+			&:hover {
+				background: darken(#d4565a, 5%);
+			}
 		}
 	}
 }
@@ -364,7 +409,7 @@ a.linkbutton {
 }
 
 #messages {
-/*/ messages main page styles */
+	margin-top: 20px;
 }
 
 th {
@@ -514,17 +559,6 @@ form#compose-message {
 		.header {
 			.title {
 				margin: 0px;
-			}
-			.navcontain {
-				margin: 0px;
-				.nav {
-					li {
-						padding: 25px 0px;
-						a {
-							padding: 25px 15px;
-						}
-					}
-				}
 			}
 		}
 	}

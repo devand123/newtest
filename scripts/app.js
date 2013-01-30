@@ -20,9 +20,10 @@ function($, _, Backbone, Marionette, initRouter, MyApp, loginCheck) {
 
         // if no status exists, return false
         if(status === null) {
-          //console.log('there is no status?: ' + status);
           // if there is any apiKey present that is empty, remove it
           localStorage.removeItem('apiKey');
+
+          
           //do not let it return anything
           return false;
         }
@@ -98,8 +99,21 @@ function($, _, Backbone, Marionette, initRouter, MyApp, loginCheck) {
       // Call the isloggedin method to check to see if the user is logged in or not
       MyApp.start(options.isLoggedIn);
 
-      // Start up the Backbone history
+      // Start up the Backbone history first thing
       Backbone.history.start({pushState: true, hashChange: true, root: 'newtest'});
+
+      $(window).on('scroll', function(evt) {
+        var topOfWindow = $(this).scrollTop();
+        var header = $('.header'),
+            headerHeight = $(header).height();
+
+        if(topOfWindow > headerHeight) {
+          $(header).addClass('transparent');
+        }
+        else {
+          $(header).removeClass('transparent');
+        }
+      });
 
       //On the click of any link except those with a data bypass
       $(this).on("click", "a:not([data-bypass])", function(evt) {

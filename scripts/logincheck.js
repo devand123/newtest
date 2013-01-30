@@ -5,12 +5,11 @@ define([
   "jquery",
   "lodash",
   "backbone",
-  "views/makeview",
-  "models/LoginState",
+  "models/loginstate",
   "events/loginvent"
 ],
 
-function($, _, Backbone, makeview, LoginState, loginVent) {
+function($, _, Backbone, LoginState, loginVent) {
 
   // Handles login, and logout
 

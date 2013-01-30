@@ -20,10 +20,25 @@ function($, _, Backbone, EJS) {
       this.$el.html(template);
     },
     events: {
-      'click li.usercontain': 'userContainClick'
+      'click li a': 'markActive'
     },
-    userContainClick: function() {
-      $('li.usercontain ul').toggleClass('stayshown');
+    markActive: function(evt) {
+      var currentActive = $('.nav li.active');
+      // equals either the hash of the target, or an empty string so it 
+      // wont return undefined when trying to be broken
+      var thisLink = evt.target.hash || '';
+      
+      // if the link is the users link, dont let it go active.
+      if(thisLink.match(/#users./)) {
+        $(currentActive).removeClass('active');
+        return;
+      }
+      else {
+        // remove the current active links active class
+        $(currentActive).removeClass('active');
+        //give the link being requested an active state
+        $('.nav li a[href="' + thisLink + '"]').not('.user-options li a').parent().addClass('active');
+      }
     }
   });
 

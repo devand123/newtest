@@ -31,38 +31,47 @@ function($, _, Backbone, EJS, makeView, loginCheck) {
 
       evt.preventDefault();
 
-      $.ajax({
-            url: './loginuser',
-            type: 'GET',
-            dataType: "json",
-            data: { username: username, password: password },
-            success: function(data) {
-              console.log('User found! Username: ' + data.username + '; Email: ' + data.email);
+      //check to make sure the inputs are filled out
+      if((username.length === 0) || (password.length === 0)) {
+        // if nothing input, return false
+        return false;
+      }
+      else {
+        //otherwise attempt to login
+        $.ajax({
+              url: './loginuser',
+              type: 'GET',
+              dataType: "json",
+              data: { username: username, password: password },
+              success: function(data) {
+                console.log('User found! Username: ' + data.username + '; Email: ' + data.email);
 
-              // Reference this data, and pass it into the 
-              // logUserIn() for use in the template
-              var loggedInViewData = {
-                username: data.username,
-                email: data.email,
-                uid: data.uid
-              };
+                // Reference this data, and pass it into the 
+                // logUserIn() for use in the template
+                var loggedInViewData = {
+                  username: data.username,
+                  email: data.email,
+                  uid: data.uid
+                };
 
-              // the user's db ID sent back from the GET request
-              //var userid = data.uid;
+                // the user's db ID sent back from the GET request
+                //var userid = data.uid;
 
-              // Set the logincheck.js status to true, and log the user in
-              // as well as utilize the data referenced above in the templates
-              //-----------------------------------------------------------------
-              // send the users id over so the login state could be set on that
-              // users particular account
-              loginCheck.logUserIn(loggedInViewData);
+                // Set the logincheck.js status to true, and log the user in
+                // as well as utilize the data referenced above in the templates
+                //-----------------------------------------------------------------
+                // send the users id over so the login state could be set on that
+                // users particular account
+                loginCheck.logUserIn(loggedInViewData);
 
-            },
-            error: function(data, data2, data3) {
-              $('span.super-error').html('<p>Wrong username and/or password combination.</p>');
-              console.log('Not logged in. No user found. ' + data + ' data 2: ' + data2 + ' data3: ' + data3);
-            }
-        });
+              },
+              error: function(data, data2, data3) {
+                $('span.super-error').html('<p>Wrong username and/or password combination.</p>');
+                console.log('Not logged in. No user found. ' + data + ' data 2: ' + data2 + ' data3: ' + data3);
+              }
+          });
+
+      }//end else
 
       }
   });

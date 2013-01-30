@@ -7,18 +7,23 @@ define([
   "ejs",
   "views/makeview",
   "logincheck",
-  "models/users"
+  "models/users",
+  "navtracker"
 ],
 
 // get users by last logged in date/time limit 25 -- grab the 25th user's id
 // then for next page: get users by last logged in date/time limit 25 after last users stored id
-
-
-function($, _, Backbone, EJS, makeView, loginCheck, Users) {
+function($, _, Backbone, EJS, makeView, loginCheck, Users, navTracker) {
 
   EJS = window.EJS;
 
   var ExploreView = Backbone.View.extend({
+    initialize: function() {
+      navTracker.markActive('#explore');
+
+      _.bindAll(this, 'scrollDetect');
+      $(window).on('scroll', this.scrollDetect);
+    },
     render: function(data) {
       var template = new EJS({ url: './templates/explore.ejs' }).render(data);
       this.$el.html(template);
@@ -28,9 +33,62 @@ function($, _, Backbone, EJS, makeView, loginCheck, Users) {
       $(template).appendTo('#explore-page');
     },
     onClose: function() {
-      //unbind the scroll event used below in the init() method
-      console.log('window should be scroll unbound');
-      $(window).unbind('scroll');
+      //unbind the events on scroll so other pages dont look for this pages items
+      $(window).unbind('scroll', this.scrollDetect);
+
+      //remove the navs active state
+      navTracker.removeState('#explore');
+    },
+    scrollDetect: function() {
+      // to control the flow
+      var throttled = _.throttle(this.getMoreUsers, 1000);
+      // call it, which calls the below getMoreUsers function
+      throttled();
+    },
+    getMoreUsers: function() {
+      // The top of the window, plus the height of the window
+      var theTop = $(window).scrollTop() + $(window).height();
+      // the user-row div
+      var userRow = $('.user-row');
+      // the last user-row div on the page (-1 = last, -5 is 5th up from last)
+      // update when the top of the screen + the screen height reaches the top of
+      // the last row div
+      var lastRow = userRow.eq(-1).offset().top;
+
+      // The id specified with the last .user-row result hidden id input
+      var theID = $('.user-row input[name="user-id"]').last().val();
+
+      // If the top of the page + the height of the window has reached the top of
+      // the last user-row div, make an ajax call for more users to be displayed
+      // then display then with the exploreSubView function above
+      if(theTop > lastRow) {
+            $.ajax({
+              url: './getusersagain',
+              type: 'GET',
+              dataType: "json",
+              data: { id: theID },
+              success: function(data) {
+                // if there is no data, return false!
+                if(data.length === 0) {
+                  // if there is no data, just return
+                  console.log('no data!');
+                  return;
+                }
+                else {
+                  var stringify = JSON.stringify(data);
+                  var parsed = JSON.parse(stringify);
+                  // build the new explore sub views
+                  // send in the parsed data for use in the exploreSubView function above
+                  exploreSubView(parsed);
+
+                }
+
+              },
+              error: function(data) {
+                console.log('error happened ' + data);
+              }
+          });
+        }
     }
   });
 
@@ -88,71 +146,6 @@ function($, _, Backbone, EJS, makeView, loginCheck, Users) {
       });
   }
 
-  function updateUserList() {
-
-    // update the users list infinite scroll style!
-    function getMoreUsers() {
-
-      // The top of the window, plus the height of the window
-      var theTop = $(window).scrollTop() + $(window).height();
-      // the user-row div
-      var userRow = $('.user-row');
-      // the last user-row div on the page (-1 = last, -5 is 5th up from last)
-      // update when the top of the screen + the screen height reaches the top of
-      // the last row div
-      var lastRow = userRow.eq(-1).offset().top;
-
-      // The id specified with the last .user-row result hidden id input
-      var theID = $('.user-row input[name="user-id"]').last().val();
-
-      // If the top of the page + the height of the window has reached the top of
-      // the last user-row div, make an ajax call for more users to be displayed
-      // then display then with the exploreSubView function above
-      if(theTop > lastRow) {
-            $.ajax({
-              url: './getusersagain',
-              type: 'GET',
-              dataType: "json",
-              data: { id: theID },
-              success: function(data) {
-                // if there is no data, return false!
-                if(data.length === 0) {
-                  // if there is no data, unbind the scroll method
-                  // because its uneccessary to have if there is no data left to get
-                  $(window).unbind('scroll');
-                  
-                  console.log('no data!');
-                }
-                else {
-                  var stringify = JSON.stringify(data);
-                  var parsed = JSON.parse(stringify);
-                  // build the new explore sub views
-                  // send in the parsed data for use in the exploreSubView function above
-                  exploreSubView(parsed);
-
-                }
-
-              },
-              error: function(data) {
-                console.log('error happened' + data);
-              }
-          });
-
-        }
-
-    }
-
-    // create a throttle, so it doesnt call for an update too much 
-    // and so we can prevent from dispaying duplicate data
-    var throttled = _.throttle(getMoreUsers, 1000);
-
-    // on scroll event, call the throttled getMoreUsers function
-    $(window).on('scroll', function() {
-      throttled();
-    });
-
-  }
-
   function init() {
 
     // get the users in the database to add to the userlist object below, which is passed to the explore page
@@ -173,9 +166,6 @@ function($, _, Backbone, EJS, makeView, loginCheck, Users) {
               console.log('error happened' + data);
             }
         });
-
-    // call the update user list function
-    updateUserList();
 
   }
 

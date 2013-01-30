@@ -7,18 +7,16 @@ define([
   "marionette",
   "ejs",
   "myapp",
-  "views/loginnav",
-  "views/loginfooter"
+  "views/loginnav"
 ],
 
-function($, _, Backbone, Marionette, EJS, MyApp, LoginNav, LoginFooter) {
+function($, _, Backbone, Marionette, EJS, MyApp, LoginNav) {
 
   EJS = window.EJS;
 
-  // Add these regions to the region manager
+  // This is a region that changes upon login
   MyApp.addRegions({
-      navigationRegion: $('nav.navcontain'),
-      footerRegion: $('.footer p.left')
+      navigationRegion: $('nav.navcontain')
   });
 
   // The region manager for the #main div
@@ -64,17 +62,11 @@ function($, _, Backbone, Marionette, EJS, MyApp, LoginNav, LoginFooter) {
   // Initialize the login views for the regions
   // Data is passed to this function to be rendered in the view per the EJS template
   function loginView(data) {
-
     // Reference the logged in nav view
     var loginNavView = new LoginNav();
 
-    // Reference the logged in footer view
-    var loginFooterView = new LoginFooter();
-
-    // Push both of those views thru upon login
-    // Pass the data through to whatever regions need to use it, and apply to their templates
+    // change the region upon login, and pass the appropriate user data through
     MyApp.navigationRegion.show(loginNavView, data);
-    MyApp.footerRegion.show(loginFooterView);
   }
 
 

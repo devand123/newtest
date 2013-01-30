@@ -57,18 +57,23 @@ function($, _, Backbone, makeView, messagesView, exploreView, userView, shareVie
     sharePage: function() {
       console.log('share page!');
       shareView.init();
+    },
+    workoutBuddy: function() {
+      alert('workout buddy woo');
     }
   };
 
   var LoggedInRouter = Backbone.Marionette.AppRouter.extend({
 
-    // This App Router's controller found in Controller.js
+    // This App Router's controller found above
     controller: LoggedInController,
 
     // Use App Router for pages with logic
     // 'Register' page for example
-    // These mapped methods are found in Controller.js
     appRoutes: {
+      // change this to rerout to messages.
+      // maybe make it go to a 'dashboard' on enter?
+      '': 'messagesMethod',
       'explore': 'exploreMethod',
       'compose': 'composeMail',
       'messages': 'messagesMethod',
@@ -78,7 +83,8 @@ function($, _, Backbone, makeView, messagesView, exploreView, userView, shareVie
       'reply/:id': 'replyToMessage',
       'users/:id': 'showUser',
       'editprofile': 'editProfile',
-      'share': 'sharePage'
+      'share': 'sharePage',
+      'workoutbuddy': 'workoutBuddy'
     }
 
   });
@@ -94,7 +100,8 @@ function($, _, Backbone, makeView, messagesView, exploreView, userView, shareVie
     // I triggered this in loginstate.login();
     // Events are unbound on loginstate.logout();
     var loggedRouter = new LoggedInRouter();
-    loggedRouter.navigate('/messages', { trigger: true });
+
+    Backbone.history.navigate('/messages', { trigger: true });
 
   });
 

@@ -1,19 +1,22 @@
 <div class="messageview">
-	<p> <a href="#messages">Go Back To Messages</a> </p>
 
-	<h1><%= messageTitle %></h1>
+	<div class="message-contain">
+		<h1><%= messageTitle %></h1>
+		<input type="hidden" name="message-id" value="<%= messageID %>" />
+		<input type="hidden" name="send-to-id" value="<%= sendTo %>" />
+		<p><strong>Received: <%= receivedDate %> </strong></p>
+
+		<p class="message-body"><%= messageBody %></p>
+	</div>
+
 	<div class="usercontain">
-		<div class="user-picture"></div>
-		<h5>Message from <a href="./users/<%= fromID %>"><%= fromUser %></a></h5>
-	</div>
-	<input type="hidden" name="message-id" value="<%= messageID %>" />
-	<input type="hidden" name="send-to-id" value="<%= sendTo %>" />
-	<p><strong>Received: <%= receivedDate %> </strong></p>
+		<img src="./images/user-image.png" />
+		<h5><a href="./users/<%= fromID %>"><%= fromUser %></a></h5>
 
-	<p class="message-body"><%= messageBody %></p>
-
-	<div class="message-tools">
-		<a href="#reply/<%= messageID %>" class="linkbutton blue-button">Reply</a>
-		<button class="message-tool active" name="delete-message">Delete</button>
+			<div class="message-tools">
+				<a href="#reply/<%= messageID %>" class="linkbutton blue-button"><i class="icon-reply"></i> Reply</a>
+				<button class="message-tool active delete" name="delete-message"><i class="icon-remove"></i> Delete</button>
+			</div>
 	</div>
+
 </div>

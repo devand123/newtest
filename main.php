@@ -1,55 +1,43 @@
 <?php 
 
-/**
- * Step 1: Require the Slim Framework
- **/
+// Require idiorm & paris for ORM
 require_once 'includes/idiorm.php';
 require_once 'includes/paris.php';
+// Require slim framework
 require 'Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();
 
-/**
- * Step 2: Instantiate a Slim application
-**/
-
+// Instantiate a slim application
 $app = new \Slim\Slim();
 
-/**
- * Step 3: Define the Slim application routes
- **/
 
 //Configure database options
 //Development version:
 ORM::configure('mysql:host=localhost;dbname=newtest');
 ORM::configure('username', 'root');
 ORM::configure('password', 'root');
+//Production
+//ORM::configure('mysql:host=localhost;dbname=devinan4_newtest');
+//ORM::configure('username', 'devinan4_devin');
+//ORM::configure('password', 'Passiton1@');
 
-
+// Represents the 'Users' table in the database
 class Users extends Model {
 }
 
+// Represents the 'Messages' table in the database
 class Messages extends Model {
 }
 
 // Rewrite to not show errrors
 $app->notFound(function () use($app) {
-    // if 404 error found by slim:
-    // do nothing
-    // This is because we are requesting many pages that only the javacscript
-    // will render
+    // Preventing slim from rendering any errors, as our front-end is handling routing,
+    // and it seems to confuse slim for obvious reasons with pushState.
 });
 
-/*
-// GET home route, render home.php
-$app->get('/', function () use($app) {
-    // Located in templates/home.php
-    // Change this later, as this is your .ejs templates folder as well.
-    //$app->render('home.php');
-});
-*/
-
-// POST route
+// Called when a user registers.
+// This adds them into the database.
 $app->post('/registeruser', function () use ($app) {
 
     $users = Model::factory('Users')->create();
@@ -72,10 +60,7 @@ $app->post('/registeruser', function () use ($app) {
     $users->save();
 });
 
-//-----------------------------
-// LOG USER IN AND OUT: STATE CHANGE
-//-----------------------------
-
+// Changing the user login status on logout
 $app->put('/logoutuser/:id', function($id) use ($app) {
 
     //check against the users db table by matching the username
@@ -86,7 +71,7 @@ $app->put('/logoutuser/:id', function($id) use ($app) {
     $user->save();
 });
 
-
+// Changing the user login status on login
 $app->put('/loginuser/:id', function($id) use ($app) {
 
     //check against the users db table by matching the username
@@ -97,8 +82,8 @@ $app->put('/loginuser/:id', function($id) use ($app) {
     $user->save();
 });
 
-// LOGIN USER
 
+// Logging the user in
 $app->get('/loginuser', function() use ($app) {
 
     $app->contentType('application/json');
@@ -118,25 +103,16 @@ $app->get('/loginuser', function() use ($app) {
     $password = $user->password;
     $email = $user->email;
 
+    // Check to see if the hashed password matches their stored password in the db
     if($passwordhash == $password) {
-
         // JSON encode all of those values to pass back to the application in response
         $dataArray = array('uid' => $uid, 'username' => $newusername, 'password' => $password, 'email' => $email);
 
-        //$response = $app->response();
-
-        // Doesnt work if i set the content-type to application/json
-        // but still returns the proper json I need without the entire crappy html of a page
-        // after I set the app to request the page as a template in the get '/' request above
-        
-        //$response['Content-Type'] = 'application/json';
-        //$response->body(json_encode($dataArray));
         echo json_encode($dataArray);
         exit();
     }
-    else {
-        echo 'Wrong password/username combination';
-    }
+    // No need to specify else here, as it just wont return if the users password does
+    // not match the one in the db
 
 });
 
@@ -344,7 +320,6 @@ $app->get('/getuser/:id', function ($id) use($app) {
     // Eventually want to return last logged in time, which will have to update on each login
     // This will also be a good way to keep track of who to show first on the explore page.
     // Just show users that were last logged in descending
-    // Smoke a blunt soon btw.
     $dataArray = array('id' => $uid, 'username' => $username, 'email' => $email, 'aboutme' => $aboutme);
 
     echo json_encode($dataArray);
@@ -363,21 +338,16 @@ $app->put('/saveprofile/:id', function($id) use ($app) {
     // decode it
     $json_a = json_decode($body, true);
 
-    // set the vairable for the content i want to use
-    //$about = $myjson['aboutme'];
-
     // find that specific user based off the id
     $user = Model::factory('Users')->find_one($id);
 
     // set the users about me to what we got from the incomind data
     $user->aboutme = $json_a['aboutme'];
-    //$user->set('aboutme', $about);
 
     // save the user yo.
     $user->save();
     exit();
 });
-
 
 // Get matching user from compose send-to keydown event for the 'show user hint' function
 $app->get('/getmatchinguser', function () use($app) {
@@ -395,31 +365,7 @@ $app->get('/getmatchinguser', function () use($app) {
 
 });
 
-// finish this lataaa
-/*$app->get('/login', function () {
-    //$users = Model::factory('User')->where('username', $json_a['username']);
-
-    //$request = $app->request()->getBody();
-});
-*/
-
-/*
-// PUT route
-$app->put('/put', function () {
-    echo 'This is a PUT route';
-});
-
-// DELETE route
-$app->delete('/delete', function () {
-    echo 'This is a DELETE route';
-});
-
-/**
- * Step 4: Run the Slim application
- *
- * This method should be called last. This executes the Slim application
- * and returns the HTTP response to the HTTP client.
- */
+// Run the application
 $app->run();
 
 

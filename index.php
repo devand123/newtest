@@ -8,7 +8,7 @@
     <head>
         <meta charset="utf-8"/>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
-        <title>Jmail</title>
+        <title>EFC</title>
         <meta name="description" content=""/>
         <meta name="viewport" content="width=device-width"/>
 
@@ -23,13 +23,13 @@
             <div class="container">
 
                 <section class="title">
-                        <h1><a href="#">Jmail</a></h1>
+                        <h1><a href="#">EFC</a></h1>
                 </section>
 
                 <nav class="navcontain">
                     <ul class="nav">
-                            <li><a href="#login">Login</a></li>
-                            <li><a href="#register">Sign Up</a></li>
+                            <li><a href="#"><i class="icon-enter"></i> Login</a></li>
+                            <li><a href="#register"><i class="icon-pencil-2"></i> Sign Up</a></li>
                     </ul>
                 </nav>
 
@@ -46,8 +46,7 @@
     <footer class="footercontain">
         <div class="container">
             <section class="footer">
-                <p class="left"><a href="#register">Register</a>  -  <a href="#login">Login</a></p>
-                <p>&copy; 2013 Jmail by Devin Andrews.</p>
+                <p>&copy; 2013 by Devin Andrews.</p>
             </section>
         </div>
     </footer>

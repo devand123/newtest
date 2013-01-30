@@ -10,10 +10,9 @@ define([
 function($, _, Backbone, loginVent, makeView, loggedRouter) {
 
   // usage in logincheck.js
-
   var LoginState = Backbone.Model.extend({
       defaults: {
-        //0 for false, andthing else true
+        //0 for false, anything else true
         status: 0,
         userId: null,
         apiKey: null
@@ -70,8 +69,7 @@ function($, _, Backbone, loginVent, makeView, loggedRouter) {
               url: './loginuser/' + passedData.uid,
               type: 'PUT',
               success: function(data) {
-                loggedRouter.init('/messages');
-                //window.location.pathname = './newtest/messages';
+
                 console.log('Login status set to true!');
               },
               error: function(data) {
@@ -89,7 +87,6 @@ function($, _, Backbone, loginVent, makeView, loggedRouter) {
         // Define the user ID for use in the ajax logout function below
         var userId = this.get('userId');
 
-        //loginVent.trigger('userLogout');
         // unbind all events triggered by login
         loginVent.unbindAll();
 

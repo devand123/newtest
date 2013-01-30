@@ -129,23 +129,22 @@ function($, _, Backbone, EJS, makeView, loginCheck, Users) {
         // Passes the values from the register form to the model
         newuser.setUser(username, password, email);
         // Saves the model to the server asynchronously.
-        // Look into using collections maybe? 
-        // NO AJAX CALL HERE
         newuser.save();
 
         $('#register').empty().append('<p>Thank you ' + username + '! Go <a href="#login">Login</a>!</p>');
 
+        var data = {
+          username: username,
+          password: password
+        };
+
         setTimeout(function(evt) {
-          window.location.hash = '#login';
+          Backbone.history.navigate('/login', { trigger: true });
         }, 3000);
 
       }
 
   }
-
-  // REFACTOR YOUR VIEWS SO THAT THEY ARE RETURNING THEMSELVES
-  // INSTEAD OF FUNCTIONS?
-  // <-- READ THAT FOR HELP IF NECESSARY. NOW GO SMOKE A BLUNT BRAH.
 
   var RegisterView = Backbone.View.extend({
     initialize: function() {
